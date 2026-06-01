@@ -33,8 +33,9 @@ yarn-error.*
 # local env files
 .env*.local
 
-# API keys (do not commit)
-src/config/api.ts
+# local env files
+.env
+.env.local
 
 # typescript
 *.tsbuildinfo
