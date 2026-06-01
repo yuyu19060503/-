@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "id": "22bf0888",
+      "cron": "57 17 * * *",
+      "prompt": "检查 `dev-logs/` 文件夹中今天（2026-06-01 之后的日期需动态判断）的开发日志是否存在。如果不存在，创建 `dev-logs/YYYY-MM-DD.md` 文件，格式参考 `dev-logs/2026-06-01.md`。然后回顾今天在项目中的代码变更（git diff / git log），将完成事项和待办事项写入日志。最后告知用户今天的开发日志已更新。",
+      "createdAt": 1780323934266,
+      "recurring": true,
+      "createdBySessionId": "102d57cf-031d-4199-9d45-f0a6216e7a08",
+      "createdByPid": 6970,
+      "createdByProcStart": "Mon Jun  1 14:13:10 2026"
+    }
+  ]
+}
