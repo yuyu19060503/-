@@ -1,11 +1,12 @@
 // ============================================================
 // 🥬 首页 — 两层选择：大类卡片 → 食材网格
 // ============================================================
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '@/constants/theme';
 import { useAppContext } from '@/store/AppContext';
+import { track } from '@/utils/analytics';
 import { INGREDIENTS, CATEGORIES, getIngredientsByCategory } from '@/data/ingredients';
 import CategoryCards from '@/components/CategoryCards';
 import CategoryTabs from '@/components/CategoryTabs';
@@ -51,7 +52,11 @@ export default function HomeScreen() {
     state.preferences.difficulty !== null ||
     state.preferences.timeRange !== '不限';
 
+  useEffect(() => { track('page_view', { page: 'home' }); }, []);
+
   const handleToggle = (ingredient: Ingredient) => {
+    const isDeselect = selectedIds.has(ingredient.id);
+    track('ingredient_toggle', { ingredient: ingredient.name, action: isDeselect ? 'deselect' : 'select' });
     dispatch({ type: 'TOGGLE_INGREDIENT', ingredient });
   };
 
@@ -60,6 +65,7 @@ export default function HomeScreen() {
   };
 
   const handleSearch = () => {
+    track('search_click', { count: state.selectedIngredients.length, has_filter: hasFilter });
     dispatch({ type: 'RESET_RECOMMEND' });
     router.push('/recommend');
   };

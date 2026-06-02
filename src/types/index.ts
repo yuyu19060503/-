@@ -2,6 +2,8 @@
 // 📦 TypeScript 类型定义
 // ============================================================
 
+import type { IconShape } from '@/components/IngredientIcon';
+
 /** 食材分类 */
 export type IngredientCategory = '蔬菜' | '肉类' | '豆蛋' | '调料' | '主食';
 
@@ -11,6 +13,7 @@ export interface Ingredient {
   name: string;
   color: string;
   label: string;
+  shape: IconShape;
   category: IngredientCategory;
 }
 

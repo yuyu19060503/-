@@ -1,5 +1,5 @@
 // ============================================================
-// 🔊 点击音效 — Web Audio API 合成（无需外部音频文件）
+// 🔊 点击音效 — 修复移动端兼容性
 // ============================================================
 
 let audioCtx: AudioContext | null = null;
@@ -7,41 +7,37 @@ let audioCtx: AudioContext | null = null;
 function getAudioContext(): AudioContext | null {
   if (audioCtx) return audioCtx;
   try {
-    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-  } catch {
-    return null;
-  }
-  return audioCtx;
+    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    audioCtx = ctx;
+    return ctx;
+  } catch { return null; }
 }
 
-/**
- * 播放短促「哒」音
- * @param isDeselect true=取消选中（音高较低），false=选中（音高较高）
- */
-export function playTick(isDeselect = false): void {
+/** 播放短促点击音，异步确保 AudioContext 已激活 */
+export async function playTick(isDeselect = false): Promise<void> {
   const ctx = getAudioContext();
   if (!ctx) return;
 
-  // 恢复被浏览器挂起的 AudioContext（iOS 需要用户交互后才允许播放）
-  if (ctx.state === 'suspended') {
-    ctx.resume().catch(() => {});
-  }
+  // 关键修复：await resume，确保 iOS Safari 下 AudioContext 被激活
+  try {
+    if (ctx.state === 'suspended') {
+      await ctx.resume();
+    }
+  } catch { return; }
 
-  const oscillator = ctx.createOscillator();
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
   const gain = ctx.createGain();
 
-  oscillator.connect(gain);
+  osc.connect(gain);
   gain.connect(ctx.destination);
 
-  // 选中音高 800Hz，取消选中 500Hz
-  oscillator.frequency.value = isDeselect ? 500 : 800;
-  oscillator.type = 'sine';
+  osc.frequency.value = isDeselect ? 500 : 800;
+  osc.type = 'sine';
 
-  // 极短的衰减音
-  const now = ctx.currentTime;
-  gain.gain.setValueAtTime(0.12, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+  gain.gain.setValueAtTime(0.2, now);           // 提高音量
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
 
-  oscillator.start(now);
-  oscillator.stop(now + 0.08);
+  osc.start(now);
+  osc.stop(now + 0.1);
 }

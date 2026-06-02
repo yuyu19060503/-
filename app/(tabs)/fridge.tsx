@@ -22,6 +22,8 @@ import { useAppContext } from '@/store/AppContext';
 import { INGREDIENTS, CATEGORIES, getIngredientsByCategory } from '@/data/ingredients';
 import CategoryTabs from '@/components/CategoryTabs';
 import IngredientGrid from '@/components/IngredientGrid';
+import IngredientIcon from '@/components/IngredientIcon';
+import { saveFridge } from '@/store/storage';
 import type { Ingredient } from '@/types';
 
 export default function FridgeScreen() {
@@ -47,7 +49,10 @@ export default function FridgeScreen() {
       {
         text: '确定',
         style: 'destructive',
-        onPress: () => dispatch({ type: 'SET_FRIDGE', ingredients: [] }),
+        onPress: () => {
+          dispatch({ type: 'SET_FRIDGE', ingredients: [] });
+          saveFridge([]); // 强制同步清除 AsyncStorage
+        },
       },
     ]);
   };
@@ -122,9 +127,7 @@ export default function FridgeScreen() {
                 onPress={() => handleToggle(item)}
                 activeOpacity={0.7}
               >
-                <View style={[styles.ingIcon, { backgroundColor: item.color }]}>
-                  <Text style={styles.ingIconLabel}>{item.label}</Text>
-                </View>
+                <IngredientIcon shape={item.shape} color={item.color} size={36} />
                 <Text style={styles.ingName}>{item.name}</Text>
               </TouchableOpacity>
             )}
@@ -236,16 +239,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...Shadow.card,
   },
-  ingIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  ingIconLabel: { fontSize: 14, fontWeight: FontWeight.bold, color: Colors.bgWhite },
-  ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center' },
+  ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center', marginTop: 4 },
 
   // 完成添加按钮
   doneBar: {
