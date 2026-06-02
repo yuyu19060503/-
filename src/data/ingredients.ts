@@ -4,7 +4,7 @@
 import type { Ingredient } from '@/types';
 
 export const INGREDIENTS: Ingredient[] = [
-  // ---- 🌿 蔬菜（31种）----
+  // ---- 🌿 蔬菜（28种）----
   { id: 'veg-01', name: '白菜', emoji: '🥬', color: 'hsl(100,55%,42%)', category: '蔬菜' },
   { id: 'veg-02', name: '菠菜', emoji: '🌿', color: 'hsl(120,58%,38%)', category: '蔬菜' },
   { id: 'veg-03', name: '生菜', emoji: '🥗', color: 'hsl(90,50%,45%)', category: '蔬菜' },
@@ -20,9 +20,9 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'veg-13', name: '白萝卜', emoji: '🥕', color: 'hsl(135,48%,45%)', category: '蔬菜' },
   { id: 'veg-14', name: '胡萝卜', emoji: '🥕', color: 'hsl(80,60%,42%)', category: '蔬菜' },
   { id: 'veg-15', name: '洋葱', emoji: '🧅', color: 'hsl(108,55%,40%)', category: '蔬菜' },
-  { id: 'veg-16', name: '大蒜', emoji: '🧄', color: 'hsl(140,50%,44%)', category: '蔬菜' },
-  { id: 'veg-17', name: '大葱', emoji: '🌿', color: 'hsl(112,52%,46%)', category: '蔬菜' },
-  { id: 'veg-18', name: '生姜', emoji: '🫚', color: 'hsl(92,48%,42%)', category: '蔬菜' },
+  { id: 'spice-19', name: '大蒜', emoji: '🧄', color: 'hsl(140,50%,44%)', category: '调料' },
+  { id: 'spice-20', name: '大葱', emoji: '🌿', color: 'hsl(112,52%,46%)', category: '调料' },
+  { id: 'spice-21', name: '生姜', emoji: '🫚', color: 'hsl(92,48%,42%)', category: '调料' },
   { id: 'veg-19', name: '青椒', emoji: '🫑', color: 'hsl(118,55%,40%)', category: '蔬菜' },
   { id: 'veg-20', name: '红椒', emoji: '🌶️', color: 'hsl(86,58%,44%)', category: '蔬菜' },
   { id: 'veg-21', name: '甜椒', emoji: '🫑', color: 'hsl(96,52%,46%)', category: '蔬菜' },
@@ -84,7 +84,7 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'bean-12', name: '绿豆', emoji: '🫘', color: 'hsl(53,58%,75%)', category: '豆蛋' },
   { id: 'bean-13', name: '红豆', emoji: '🫘', color: 'hsl(41,62%,46%)', category: '豆蛋' },
 
-  // ---- 🧂 调味料（18种）----
+  // ---- 🧂 调味料（21种）----
   { id: 'spice-01', name: '盐', emoji: '🧂', color: 'hsl(30,40%,55%)', category: '调料' },
   { id: 'spice-02', name: '酱油', emoji: '🫗', color: 'hsl(25,45%,42%)', category: '调料' },
   { id: 'spice-03', name: '老抽', emoji: '🫗', color: 'hsl(22,42%,38%)', category: '调料' },
