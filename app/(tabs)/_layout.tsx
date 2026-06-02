@@ -34,7 +34,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: '首页',
-          headerTitle: '🥘 今天吃什么',
+          headerTitle: '🔥 烧什么菜',
           tabBarIcon: ({ focused }) => <TabEmoji emoji="🏠" focused={focused} />,
         }}
       />

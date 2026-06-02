@@ -42,11 +42,11 @@ export default function SelectedBar({ count, onClear, onSearch }: Props) {
           disabled={isEmpty}
           activeOpacity={0.8}
         >
-          <Text style={styles.searchIcon}>🔍</Text>
+          <Text style={styles.searchIcon}>🔥</Text>
           <Text
             style={[styles.searchText, isEmpty && styles.searchTextDisabled]}
           >
-            找菜
+            烧菜
           </Text>
         </TouchableOpacity>
       </View>

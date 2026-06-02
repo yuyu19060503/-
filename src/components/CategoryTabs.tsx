@@ -1,14 +1,8 @@
 // ============================================================
-// 🏷️ 分类标签栏 — 横向可滚动
+// 🏷️ 分类标签栏 — 横向可滚动（已加高，文字不再被裁切）
 // ============================================================
-import {
-  StyleSheet,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '@/constants/theme';
-import type { IngredientCategory } from '@/types';
 
 type Props = {
   categories: readonly string[];
@@ -42,14 +36,9 @@ export default function CategoryTabs({ categories, selected, onSelect }: Props) 
   );
 }
 
-/** 分类对应的 emoji */
 function getCategoryEmoji(cat: string): string {
   const map: Record<string, string> = {
-    '蔬菜': '🌿',
-    '肉类': '🥩',
-    '豆蛋': '🥚',
-    '调料': '🧂',
-    '主食': '🍚',
+    '蔬菜': '🥬', '肉类': '🥩', '豆蛋': '🥚', '调料': '🧂', '主食': '🍚',
   };
   return map[cat] ?? '📦';
 }
@@ -61,19 +50,21 @@ const styles = StyleSheet.create({
     gap: Spacing.sm,
   },
   tab: {
-    paddingHorizontal: Spacing.lg,
-    paddingVertical: Spacing.sm,
+    paddingHorizontal: Spacing.xl,
+    paddingVertical: Spacing.md,
     borderRadius: BorderRadius.tag,
     backgroundColor: Colors.bgWhite,
     borderWidth: 1,
     borderColor: Colors.borderLight,
+    minHeight: 44,
+    justifyContent: 'center',
   },
   tabActive: {
     backgroundColor: Colors.accentPrimary,
     borderColor: Colors.accentPrimary,
   },
   label: {
-    fontSize: FontSize.body,
+    fontSize: FontSize.button,
     fontWeight: FontWeight.medium,
     color: Colors.textSecondary,
   },

@@ -136,12 +136,13 @@ export default function RecommendScreen() {
 
   return (
     <View style={styles.container}>
-      {/* 加载中 */}
+      {/* 加载中 — 趣味动画 */}
       {state.isLoading && (
         <View style={styles.center}>
-          <Text style={styles.loadingEmoji}>🥘</Text>
+          <Text style={styles.loadingEmoji}>👨‍🍳</Text>
           <ActivityIndicator size="large" color={Colors.accentPrimary} />
-          <Text style={styles.loadingText}>正在帮你找菜...</Text>
+          <Text style={styles.loadingText}>大厨正在翻菜谱...</Text>
+          <Text style={styles.loadingSub}>根据你的食材精心搭配中</Text>
         </View>
       )}
 
@@ -292,9 +293,15 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.lg,
   },
   loadingText: {
+    fontSize: FontSize.section,
+    fontWeight: FontWeight.semiBold,
+    color: Colors.textPrimary,
+    marginTop: Spacing.lg,
+  },
+  loadingSub: {
     fontSize: FontSize.body,
     color: Colors.textMuted,
-    marginTop: Spacing.lg,
+    marginTop: Spacing.sm,
   },
   errorEmoji: { fontSize: 64, marginBottom: Spacing.lg },
   errorText: {

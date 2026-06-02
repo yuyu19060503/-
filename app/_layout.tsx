@@ -1,20 +1,39 @@
 // ============================================================
-// 🏠 根布局 — 错误边界 + 启动屏 + Stack 导航
+// 🏠 根布局 — 错误边界 + 启动屏 + 新手引导 + Stack 导航
 // ============================================================
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AppProvider, useAppContext } from '@/store/AppContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import OnboardingModal from '@/components/OnboardingModal';
 import { Colors, FontSize, FontWeight, Spacing } from '@/constants/theme';
 
-// 阻止启动屏自动隐藏
+const ONBOARDING_KEY = '@dishes/onboarding_done';
+
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
 function AppContent() {
   const { state } = useAppContext();
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem(ONBOARDING_KEY).then((val) => {
+      if (!val) {
+        setShowOnboarding(true);
+      }
+      setOnboardingChecked(true);
+    });
+  }, []);
+
+  const handleDismissOnboarding = () => {
+    setShowOnboarding(false);
+    AsyncStorage.setItem(ONBOARDING_KEY, '1').catch(() => {});
+  };
 
   const onLayoutRootView = useCallback(() => {
     if (state.isLoaded) {
@@ -22,11 +41,10 @@ function AppContent() {
     }
   }, [state.isLoaded]);
 
-  // 数据未加载时显示启动屏（由原生端控制，这里做个兜底）
-  if (!state.isLoaded) {
+  if (!state.isLoaded || !onboardingChecked) {
     return (
       <View style={styles.loading}>
-        <Text style={styles.loadingEmoji}>🥘</Text>
+        <Text style={styles.loadingEmoji}>🔥</Text>
         <Text style={styles.loadingText}>加载中...</Text>
       </View>
     );
@@ -50,19 +68,15 @@ function AppContent() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="recommend"
-          options={{
-            title: '菜品推荐',
-            presentation: 'card',
-          }}
+          options={{ title: '菜品推荐', presentation: 'card' }}
         />
         <Stack.Screen
           name="recipe/[id]"
-          options={{
-            title: '菜品详情',
-            presentation: 'card',
-          }}
+          options={{ title: '菜品详情', presentation: 'card' }}
         />
       </Stack>
+
+      <OnboardingModal visible={showOnboarding} onDismiss={handleDismissOnboarding} />
     </View>
   );
 }

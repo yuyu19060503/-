@@ -1,5 +1,5 @@
 // ============================================================
-// 🥬 首页 — 食材选择 + 筛选 + 找菜入口
+// 🥬 首页 — 两层选择：大类卡片 → 食材网格
 // ============================================================
 import { useState, useMemo } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
@@ -7,19 +7,37 @@ import { router } from 'expo-router';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius } from '@/constants/theme';
 import { useAppContext } from '@/store/AppContext';
 import { INGREDIENTS, CATEGORIES, getIngredientsByCategory } from '@/data/ingredients';
+import CategoryCards from '@/components/CategoryCards';
 import CategoryTabs from '@/components/CategoryTabs';
 import IngredientGrid from '@/components/IngredientGrid';
 import SelectedBar from '@/components/SelectedBar';
 import FilterModal from '@/components/FilterModal';
 import type { Ingredient } from '@/types';
 
+/* 随机趣味副标题 */
+const SUBTITLES = [
+  '今天烧什么好呢？',
+  '冰箱里藏着一桌大餐…',
+  '做一桌好菜犒劳自己吧！',
+  '让大厨帮你出出主意～',
+  '现有食材也能做大餐！',
+  '不买菜也能吃好饭！',
+];
+
 export default function HomeScreen() {
   const { state, dispatch } = useAppContext();
-  const [activeCategory, setActiveCategory] = useState<string>(CATEGORIES[0]);
+  // null = 第一层（大类卡片），string = 第二层（具体分类）
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [filterVisible, setFilterVisible] = useState(false);
 
+  // 随机副标题
+  const subtitle = useMemo(
+    () => SUBTITLES[Math.floor(Math.random() * SUBTITLES.length)],
+    []
+  );
+
   const categoryIngredients = useMemo(
-    () => getIngredientsByCategory(activeCategory),
+    () => (activeCategory ? getIngredientsByCategory(activeCategory) : []),
     [activeCategory]
   );
 
@@ -28,7 +46,6 @@ export default function HomeScreen() {
     [state.selectedIngredients]
   );
 
-  // 筛选是否激活
   const hasFilter =
     state.preferences.cuisine !== null ||
     state.preferences.difficulty !== null ||
@@ -49,7 +66,10 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      {/* 筛选按钮行 */}
+      {/* 副标题 */}
+      <Text style={styles.subtitle}>{subtitle}</Text>
+
+      {/* 筛选按钮 */}
       <TouchableOpacity
         style={[styles.filterBtn, hasFilter && styles.filterBtnActive]}
         onPress={() => setFilterVisible(true)}
@@ -71,21 +91,31 @@ export default function HomeScreen() {
         )}
       </TouchableOpacity>
 
-      {/* 分类标签栏 */}
-      <CategoryTabs
-        categories={CATEGORIES}
-        selected={activeCategory}
-        onSelect={setActiveCategory}
-      />
+      {/* 第一层 or 第二层 */}
+      {activeCategory === null ? (
+        <CategoryCards onSelect={setActiveCategory} />
+      ) : (
+        <View style={styles.level2}>
+          {/* 返回 + 分类标签 */}
+          <View style={styles.level2Header}>
+            <TouchableOpacity onPress={() => setActiveCategory(null)}>
+              <Text style={styles.backBtn}>← 所有分类</Text>
+            </TouchableOpacity>
+          </View>
+          <CategoryTabs
+            categories={CATEGORIES}
+            selected={activeCategory}
+            onSelect={setActiveCategory}
+          />
+          <IngredientGrid
+            ingredients={categoryIngredients}
+            selectedIds={selectedIds}
+            onToggle={handleToggle}
+          />
+        </View>
+      )}
 
-      {/* 食材网格 */}
-      <IngredientGrid
-        ingredients={categoryIngredients}
-        selectedIds={selectedIds}
-        onToggle={handleToggle}
-      />
-
-      {/* 底部已选横条 + 找菜按钮 */}
+      {/* 底部已选横条（两层都显示） */}
       <SelectedBar
         count={state.selectedIngredients.length}
         onClear={handleClear}
@@ -107,12 +137,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.bgPrimary,
+  },
+  subtitle: {
+    fontSize: FontSize.caption,
+    color: Colors.textMuted,
+    textAlign: 'center',
     paddingTop: Spacing.sm,
+    paddingBottom: Spacing.xs,
   },
   filterBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: Spacing.lg,
+    marginBottom: Spacing.xs,
     paddingHorizontal: Spacing.md,
     paddingVertical: Spacing.sm,
     backgroundColor: Colors.bgWhite,
@@ -120,7 +157,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.borderLight,
     gap: Spacing.sm,
-    marginBottom: Spacing.xs,
   },
   filterBtnActive: {
     borderColor: Colors.accentPrimary,
@@ -140,5 +176,18 @@ const styles = StyleSheet.create({
     color: Colors.accentDeep,
     flex: 1,
     textAlign: 'right',
+  },
+  level2: {
+    flex: 1,
+  },
+  level2Header: {
+    paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.sm,
+    paddingBottom: Spacing.xs,
+  },
+  backBtn: {
+    fontSize: FontSize.body,
+    fontWeight: FontWeight.semiBold,
+    color: Colors.accentPrimary,
   },
 });

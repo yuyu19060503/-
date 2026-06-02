@@ -1,8 +1,7 @@
 // ============================================================
-// 🥬 食材卡片 — 单个可选食材
-// 尺寸：72×88，emoji 上 + 名称下
+// 🥬 食材卡片 — 彩色方块图标 + 名称
 // ============================================================
-import { StyleSheet, Text, TouchableOpacity, Animated } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
 import { useRef, useEffect } from 'react';
 import {
   Colors,
@@ -12,6 +11,7 @@ import {
   BorderRadius,
   Shadow,
 } from '@/constants/theme';
+import { playTick } from '@/utils/sound';
 import type { Ingredient } from '@/types';
 
 type Props = {
@@ -20,20 +20,12 @@ type Props = {
   onPress: (ingredient: Ingredient) => void;
 };
 
-export default function IngredientCard({
-  ingredient,
-  selected,
-  onPress,
-}: Props) {
+export default function IngredientCard({ ingredient, selected, onPress }: Props) {
   const scale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.sequence([
-      Animated.timing(scale, {
-        toValue: 0.92,
-        duration: 75,
-        useNativeDriver: true,
-      }),
+      Animated.timing(scale, { toValue: 0.92, duration: 75, useNativeDriver: true }),
       Animated.spring(scale, {
         toValue: selected ? 1.05 : 1,
         friction: 4,
@@ -43,14 +35,23 @@ export default function IngredientCard({
     ]).start();
   }, [selected]);
 
+  const handlePress = () => {
+    playTick(selected);
+    onPress(ingredient);
+  };
+
   return (
     <Animated.View style={{ transform: [{ scale }] }}>
       <TouchableOpacity
         style={[styles.card, selected && styles.cardSelected]}
-        onPress={() => onPress(ingredient)}
+        onPress={handlePress}
         activeOpacity={0.7}
       >
-        <Text style={styles.emoji}>{ingredient.emoji}</Text>
+        <View style={[styles.icon, { backgroundColor: ingredient.color }]}>
+          <Text style={styles.iconLabel} numberOfLines={1}>
+            {ingredient.label}
+          </Text>
+        </View>
         <Text style={[styles.name, selected && styles.nameSelected]}>
           {ingredient.name}
         </Text>
@@ -62,7 +63,7 @@ export default function IngredientCard({
 const styles = StyleSheet.create({
   card: {
     width: 72,
-    height: 88,
+    height: 92,
     backgroundColor: Colors.bgWhite,
     borderRadius: BorderRadius.card,
     borderWidth: 1.5,
@@ -79,9 +80,18 @@ const styles = StyleSheet.create({
     borderColor: Colors.accentPrimary,
     borderWidth: 2,
   },
-  emoji: {
-    fontSize: FontSize.emoji,
+  icon: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 4,
+  },
+  iconLabel: {
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.bgWhite,
   },
   name: {
     fontSize: FontSize.caption,

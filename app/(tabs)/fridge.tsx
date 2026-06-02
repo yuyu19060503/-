@@ -122,7 +122,9 @@ export default function FridgeScreen() {
                 onPress={() => handleToggle(item)}
                 activeOpacity={0.7}
               >
-                <Text style={styles.ingEmoji}>{item.emoji}</Text>
+                <View style={[styles.ingIcon, { backgroundColor: item.color }]}>
+                  <Text style={styles.ingIconLabel}>{item.label}</Text>
+                </View>
                 <Text style={styles.ingName}>{item.name}</Text>
               </TouchableOpacity>
             )}
@@ -234,7 +236,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...Shadow.card,
   },
-  ingEmoji: { fontSize: FontSize.emoji, marginBottom: 4 },
+  ingIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  ingIconLabel: { fontSize: 14, fontWeight: FontWeight.bold, color: Colors.bgWhite },
   ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center' },
 
   // 完成添加按钮
