@@ -20,7 +20,7 @@ type Props = { onSelect: (cat: string) => void };
 
 export default function CategoryCards({ onSelect }: Props) {
   return (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
+    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
       <Text style={styles.hint}>👇 点击你家有的食材大类</Text>
       <View style={styles.grid}>
         {CATS.map((cat) => (

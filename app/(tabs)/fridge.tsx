@@ -22,7 +22,6 @@ import { useAppContext } from '@/store/AppContext';
 import { INGREDIENTS, CATEGORIES, getIngredientsByCategory } from '@/data/ingredients';
 import CategoryTabs from '@/components/CategoryTabs';
 import IngredientGrid from '@/components/IngredientGrid';
-import IngredientIcon from '@/components/IngredientIcon';
 import { saveFridge } from '@/store/storage';
 import type { Ingredient } from '@/types';
 
@@ -127,7 +126,7 @@ export default function FridgeScreen() {
                 onPress={() => handleToggle(item)}
                 activeOpacity={0.7}
               >
-                <IngredientIcon shape={item.shape} color={item.color} size={36} />
+                <Text style={styles.ingEmoji}>{item.emoji}</Text>
                 <Text style={styles.ingName}>{item.name}</Text>
               </TouchableOpacity>
             )}
@@ -239,7 +238,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...Shadow.card,
   },
-  ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center', marginTop: 4 },
+  ingEmoji: { fontSize: 30, marginBottom: 4 },
+  ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center' },
 
   // 完成添加按钮
   doneBar: {

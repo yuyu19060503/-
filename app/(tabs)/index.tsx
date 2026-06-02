@@ -99,7 +99,9 @@ export default function HomeScreen() {
 
       {/* 第一层 or 第二层 */}
       {activeCategory === null ? (
-        <CategoryCards onSelect={setActiveCategory} />
+        <View style={{ flex: 1 }}>
+          <CategoryCards onSelect={setActiveCategory} />
+        </View>
       ) : (
         <View style={styles.level2}>
           {/* 返回 + 分类标签 */}

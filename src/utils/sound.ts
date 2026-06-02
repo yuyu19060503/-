@@ -1,43 +1,36 @@
 // ============================================================
-// 🔊 点击音效 — 修复移动端兼容性
+// 🔊 点击音效 — 预热模式，首次触摸激活 AudioContext
 // ============================================================
+let ctx: AudioContext | null = null;
 
-let audioCtx: AudioContext | null = null;
-
-function getAudioContext(): AudioContext | null {
-  if (audioCtx) return audioCtx;
-  try {
-    const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-    audioCtx = ctx;
-    return ctx;
-  } catch { return null; }
+function initCtx(): AudioContext | null {
+  if (ctx) return ctx;
+  try { ctx = new (window.AudioContext || (window as any).webkitAudioContext)(); } catch { return null; }
+  return ctx;
 }
 
-/** 播放短促点击音，异步确保 AudioContext 已激活 */
-export async function playTick(isDeselect = false): Promise<void> {
-  const ctx = getAudioContext();
-  if (!ctx) return;
+// 预热：第一次用户触摸页面时激活 AudioContext
+if (typeof document !== 'undefined') {
+  document.addEventListener('touchstart', () => {
+    const c = initCtx();
+    if (c && c.state === 'suspended') c.resume();
+  }, { once: true });
+  document.addEventListener('click', () => {
+    const c = initCtx();
+    if (c && c.state === 'suspended') c.resume();
+  }, { once: true });
+}
 
-  // 关键修复：await resume，确保 iOS Safari 下 AudioContext 被激活
-  try {
-    if (ctx.state === 'suspended') {
-      await ctx.resume();
-    }
-  } catch { return; }
-
-  const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
+export function playTick(isDeselect = false): void {
+  const c = initCtx();
+  if (!c) return;
+  const now = c.currentTime;
+  const osc = c.createOscillator();
+  const gain = c.createGain();
+  osc.connect(gain); gain.connect(c.destination);
   osc.frequency.value = isDeselect ? 500 : 800;
   osc.type = 'sine';
-
-  gain.gain.setValueAtTime(0.2, now);           // 提高音量
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-
-  osc.start(now);
-  osc.stop(now + 0.1);
+  gain.gain.setValueAtTime(0.25, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+  osc.start(now); osc.stop(now + 0.12);
 }

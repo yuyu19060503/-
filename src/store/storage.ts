@@ -45,11 +45,20 @@ export async function saveHistory(history: Recipe[]): Promise<void> {
   } catch {}
 }
 
-// ---- 冰箱 ----
+// ---- 冰箱（含旧数据迁移） ----
 export async function loadFridge(): Promise<Ingredient[]> {
   try {
     const raw = await AsyncStorage.getItem(KEYS.FRIDGE);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const items = JSON.parse(raw);
+    // 迁移旧格式：补充缺失字段
+    return items.filter(Boolean).map((item: Record<string, unknown>) => ({
+      id: (item.id as string) || '',
+      name: (item.name as string) || '',
+      emoji: (item.emoji as string) || '📦',
+      color: (item.color as string) || 'hsl(100,50%,42%)',
+      category: (item.category as string) || '蔬菜',
+    }));
   } catch {
     return [];
   }
