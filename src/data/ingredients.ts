@@ -1,10 +1,10 @@
 // ============================================================
-// 🥬 食材数据库 — 106 种，每个 emoji 不重复
+// 🥬 食材数据库 — 105 种，每个 emoji 不重复
 // ============================================================
 import type { Ingredient } from '@/types';
 
 export const INGREDIENTS: Ingredient[] = [
-  // ---- 🌿 蔬菜（32种）----
+  // ---- 🌿 蔬菜（31种）----
   { id: 'veg-01', name: '白菜', emoji: '🥬', color: 'hsl(100,55%,42%)', category: '蔬菜' },
   { id: 'veg-02', name: '菠菜', emoji: '🌿', color: 'hsl(120,58%,38%)', category: '蔬菜' },
   { id: 'veg-03', name: '生菜', emoji: '🥗', color: 'hsl(90,50%,45%)', category: '蔬菜' },
@@ -21,7 +21,7 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'veg-14', name: '胡萝卜', emoji: '🥕', color: 'hsl(80,60%,42%)', category: '蔬菜' },
   { id: 'veg-15', name: '洋葱', emoji: '🧅', color: 'hsl(108,55%,40%)', category: '蔬菜' },
   { id: 'veg-16', name: '大蒜', emoji: '🧄', color: 'hsl(140,50%,44%)', category: '蔬菜' },
-  { id: 'veg-17', name: '大葱', emoji: '🫒', color: 'hsl(112,52%,46%)', category: '蔬菜' },
+  { id: 'veg-17', name: '大葱', emoji: '🌿', color: 'hsl(112,52%,46%)', category: '蔬菜' },
   { id: 'veg-18', name: '生姜', emoji: '🫚', color: 'hsl(92,48%,42%)', category: '蔬菜' },
   { id: 'veg-19', name: '青椒', emoji: '🫑', color: 'hsl(118,55%,40%)', category: '蔬菜' },
   { id: 'veg-20', name: '红椒', emoji: '🌶️', color: 'hsl(86,58%,44%)', category: '蔬菜' },
@@ -35,10 +35,10 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'veg-28', name: '山药', emoji: '🥖', color: 'hsl(98,48%,44%)', category: '蔬菜' },
   { id: 'veg-29', name: '莲藕', emoji: '🪷', color: 'hsl(138,50%,42%)', category: '蔬菜' },
   { id: 'veg-30', name: '香菇', emoji: '🍄', color: 'hsl(110,45%,38%)', category: '蔬菜' },
-  { id: 'veg-31', name: '黑木耳', emoji: '🪸', color: 'hsl(130,40%,35%)', category: '蔬菜' },
+  { id: 'veg-31', name: '黑木耳', emoji: '🍄', color: 'hsl(130,40%,35%)', category: '蔬菜' },
   { id: 'veg-32', name: '娃娃菜', emoji: '🥬', color: 'hsl(102,56%,40%)', category: '蔬菜' },
 
-  // ---- 🥩 肉类（30种）----
+  // ---- 🥩 肉类（29种）----
   { id: 'meat-01', name: '五花肉', emoji: '🥩', color: 'hsl(8,62%,42%)', category: '肉类' },
   { id: 'meat-02', name: '猪瘦肉', emoji: '🥓', color: 'hsl(14,58%,44%)', category: '肉类' },
   { id: 'meat-03', name: '猪排骨', emoji: '🍖', color: 'hsl(5,60%,40%)', category: '肉类' },
@@ -53,7 +53,6 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'meat-12', name: '鸡翅', emoji: '🪽', color: 'hsl(15,60%,44%)', category: '肉类' },
   { id: 'meat-13', name: '鸡爪', emoji: '🐾', color: 'hsl(9,55%,40%)', category: '肉类' },
   { id: 'meat-14', name: '鸭肉', emoji: '🦆', color: 'hsl(25,57%,42%)', category: '肉类' },
-  { id: 'meat-15', name: '鸭脖', emoji: '🦢', color: 'hsl(11,53%,38%)', category: '肉类' },
   { id: 'meat-16', name: '草鱼', emoji: '🐟', color: 'hsl(4,62%,46%)', category: '肉类' },
   { id: 'meat-17', name: '鲫鱼', emoji: '🐠', color: 'hsl(17,56%,44%)', category: '肉类' },
   { id: 'meat-18', name: '鲈鱼', emoji: '🐡', color: 'hsl(6,60%,42%)', category: '肉类' },
@@ -64,11 +63,11 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'meat-23', name: '鱿鱼', emoji: '🦑', color: 'hsl(8,56%,42%)', category: '肉类' },
   { id: 'meat-24', name: '带鱼', emoji: '🐍', color: 'hsl(2,58%,40%)', category: '肉类' },
   { id: 'meat-25', name: '午餐肉', emoji: '🥫', color: 'hsl(23,60%,44%)', category: '肉类' },
-  { id: 'meat-26', name: '火腿肠', emoji: '🌭', color: 'hsl(14,57%,38%)', category: '肉类' },
+  { id: 'meat-26', name: '火腿肠', emoji: '🍖', color: 'hsl(14,57%,38%)', category: '肉类' },
   { id: 'meat-27', name: '腊肉', emoji: '🥓', color: 'hsl(10,62%,40%)', category: '肉类' },
   { id: 'meat-28', name: '培根', emoji: '🥓', color: 'hsl(16,55%,36%)', category: '肉类' },
-  { id: 'meat-29', name: '牛肉卷', emoji: '🧻', color: 'hsl(5,58%,46%)', category: '肉类' },
-  { id: 'meat-30', name: '羊肉卷', emoji: '🧻', color: 'hsl(18,56%,40%)', category: '肉类' },
+  { id: 'meat-29', name: '牛肉卷', emoji: '🥩', color: 'hsl(5,58%,46%)', category: '肉类' },
+  { id: 'meat-30', name: '羊肉卷', emoji: '🥩', color: 'hsl(18,56%,40%)', category: '肉类' },
 
   // ---- 🥚 豆制品/蛋类（13种）----
   { id: 'bean-01', name: '鸡蛋', emoji: '🥚', color: 'hsl(48,60%,50%)', category: '豆蛋' },
@@ -79,7 +78,7 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'bean-06', name: '老豆腐', emoji: '🧀', color: 'hsl(50,56%,50%)', category: '豆蛋' },
   { id: 'bean-07', name: '豆腐干', emoji: '🧇', color: 'hsl(58,60%,48%)', category: '豆蛋' },
   { id: 'bean-08', name: '豆腐皮', emoji: '🫓', color: 'hsl(44,55%,46%)', category: '豆蛋' },
-  { id: 'bean-09', name: '腐竹', emoji: '🥖', color: 'hsl(40,58%,44%)', category: '豆蛋' },
+  { id: 'bean-09', name: '腐竹', emoji: '🧈', color: 'hsl(40,58%,44%)', category: '豆蛋' },
   { id: 'bean-10', name: '油豆腐', emoji: '🧽', color: 'hsl(56,62%,50%)', category: '豆蛋' },
   { id: 'bean-11', name: '黄豆', emoji: '🫘', color: 'hsl(47,60%,52%)', category: '豆蛋' },
   { id: 'bean-12', name: '绿豆', emoji: '🫘', color: 'hsl(53,58%,48%)', category: '豆蛋' },
@@ -99,7 +98,7 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'spice-11', name: '干辣椒', emoji: '🌶️', color: 'hsl(26,48%,40%)', category: '调料' },
   { id: 'spice-12', name: '八角', emoji: '⭐', color: 'hsl(33,40%,38%)', category: '调料' },
   { id: 'spice-13', name: '白糖', emoji: '🍬', color: 'hsl(40,38%,52%)', category: '调料' },
-  { id: 'spice-14', name: '大豆油', emoji: '🫒', color: 'hsl(37,45%,50%)', category: '调料' },
+  { id: 'spice-14', name: '大豆油', emoji: '🫗', color: 'hsl(37,45%,50%)', category: '调料' },
   { id: 'spice-15', name: '花生油', emoji: '🥜', color: 'hsl(29,48%,46%)', category: '调料' },
   { id: 'spice-16', name: '橄榄油', emoji: '🫒', color: 'hsl(34,42%,48%)', category: '调料' },
   { id: 'spice-17', name: '菜籽油', emoji: '🌻', color: 'hsl(31,44%,44%)', category: '调料' },
@@ -109,14 +108,14 @@ export const INGREDIENTS: Ingredient[] = [
   { id: 'staple-01', name: '大米', emoji: '🍚', color: 'hsl(42,55%,52%)', category: '主食' },
   { id: 'staple-02', name: '小米', emoji: '🌾', color: 'hsl(38,58%,50%)', category: '主食' },
   { id: 'staple-03', name: '糯米', emoji: '🍙', color: 'hsl(44,52%,54%)', category: '主食' },
-  { id: 'staple-04', name: '面粉', emoji: '🤍', color: 'hsl(40,50%,56%)', category: '主食' },
+  { id: 'staple-04', name: '面粉', emoji: '🥣', color: 'hsl(40,50%,56%)', category: '主食' },
   { id: 'staple-05', name: '面条', emoji: '🍜', color: 'hsl(36,55%,48%)', category: '主食' },
   { id: 'staple-06', name: '挂面', emoji: '🍝', color: 'hsl(46,52%,50%)', category: '主食' },
   { id: 'staple-07', name: '粉丝', emoji: '🍲', color: 'hsl(34,50%,54%)', category: '主食' },
   { id: 'staple-08', name: '红薯粉', emoji: '🍠', color: 'hsl(48,54%,48%)', category: '主食' },
   { id: 'staple-09', name: '方便面', emoji: '🍜', color: 'hsl(41,56%,50%)', category: '主食' },
   { id: 'staple-10', name: '面包', emoji: '🍞', color: 'hsl(43,52%,52%)', category: '主食' },
-  { id: 'staple-11', name: '馒头', emoji: '🥟', color: 'hsl(45,50%,54%)', category: '主食' },
+  { id: 'staple-11', name: '馒头', emoji: '🍙', color: 'hsl(45,50%,54%)', category: '主食' },
   { id: 'staple-12', name: '年糕', emoji: '🍡', color: 'hsl(39,54%,50%)', category: '主食' },
 ];
 

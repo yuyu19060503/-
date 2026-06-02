@@ -1,14 +1,10 @@
 // ============================================================
-// 🃏 分类大卡片 — 可滚动，尺寸优化
+// 🃏 分类大卡片 — 缩小尺寸，一屏显示全
 // ============================================================
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { Colors, FontSize, FontWeight, Spacing, BorderRadius, Shadow } from '@/constants/theme';
 
-type CategoryInfo = {
-  key: string; label: string; icon: string; color: string; darkColor: string;
-};
-
-const CATS: CategoryInfo[] = [
+const CATS = [
   { key: '蔬菜', label: '我有蔬菜', icon: '🥬', color: '#E8F5E9', darkColor: '#43A047' },
   { key: '肉类', label: '我有肉类', icon: '🥩', color: '#FFEBEE', darkColor: '#E53935' },
   { key: '豆蛋', label: '我有豆蛋', icon: '🥚', color: '#FFF8E1', darkColor: '#FB8C00' },
@@ -25,9 +21,9 @@ export default function CategoryCards({ onSelect }: Props) {
       <View style={styles.grid}>
         {CATS.map((cat) => (
           <TouchableOpacity
-            key={cat.key}
+            key={cat.key} activeOpacity={0.7}
             style={[styles.card, { backgroundColor: cat.color, borderColor: cat.darkColor }]}
-            onPress={() => onSelect(cat.key)} activeOpacity={0.7}
+            onPress={() => onSelect(cat.key)}
           >
             <Text style={styles.icon}>{cat.icon}</Text>
             <Text style={[styles.label, { color: cat.darkColor }]}>{cat.label}</Text>
@@ -42,10 +38,7 @@ const styles = StyleSheet.create({
   scroll: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
   hint: { fontSize: FontSize.body, color: Colors.textMuted, textAlign: 'center', marginBottom: Spacing.lg },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: Spacing.md },
-  card: {
-    width: '47%', aspectRatio: 1.6, borderRadius: BorderRadius.recipeCard,
-    borderWidth: 2.5, justifyContent: 'center', alignItems: 'center', ...Shadow.card,
-  },
-  icon: { fontSize: 36, marginBottom: Spacing.xs },
-  label: { fontSize: FontSize.button, fontWeight: FontWeight.bold },
+  card: { width: '47%', aspectRatio: 2.2, borderRadius: BorderRadius.recipeCard, borderWidth: 2.5, justifyContent: 'center', alignItems: 'center', ...Shadow.card },
+  icon: { fontSize: 30, marginBottom: 2 },
+  label: { fontSize: FontSize.body, fontWeight: FontWeight.bold },
 });

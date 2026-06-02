@@ -29,6 +29,7 @@ export default function FridgeScreen() {
   const { state, dispatch } = useAppContext();
   const [activeCategory, setActiveCategory] = useState<string>(CATEGORIES[0]);
   const [mode, setMode] = useState<'view' | 'add'>('view');
+  const [deleteMode, setDeleteMode] = useState(false);
 
   const categoryIngredients = getIngredientsByCategory(activeCategory);
   const fridgeIds = new Set(state.fridge.map((i) => i.id));
@@ -49,8 +50,9 @@ export default function FridgeScreen() {
         text: '确定',
         style: 'destructive',
         onPress: () => {
+          setDeleteMode(false);
           dispatch({ type: 'SET_FRIDGE', ingredients: [] });
-          saveFridge([]); // 强制同步清除 AsyncStorage
+          saveFridge([]);
         },
       },
     ]);
@@ -104,12 +106,25 @@ export default function FridgeScreen() {
         <>
           {/* 操作栏 */}
           <View style={styles.actionBar}>
-            <TouchableOpacity style={styles.actionBtn} onPress={handleUseFridge}>
-              <Text style={styles.actionText}>📋 一键加入首页</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleClearAll}>
-              <Text style={styles.clearBtn}>清空</Text>
-            </TouchableOpacity>
+            {deleteMode ? (
+              <TouchableOpacity style={styles.doneBtnSm} onPress={() => setDeleteMode(false)}>
+                <Text style={styles.doneTextSm}>✓ 完成</Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TouchableOpacity style={styles.actionBtn} onPress={handleUseFridge}>
+                  <Text style={styles.actionText}>📋 一键加入首页</Text>
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row', gap: Spacing.md, alignItems: 'center' }}>
+                  <TouchableOpacity onPress={() => setDeleteMode(true)}>
+                    <Text style={styles.editBtn}>✏️ 编辑</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleClearAll}>
+                    <Text style={styles.clearBtn}>清空</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
           </View>
 
           {/* 冰箱食材列表 */}
@@ -123,11 +138,17 @@ export default function FridgeScreen() {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.ingCard}
-                onPress={() => handleToggle(item)}
-                activeOpacity={0.7}
+                onPress={deleteMode ? undefined : () => handleToggle(item)}
+                onLongPress={() => setDeleteMode(true)}
+                activeOpacity={deleteMode ? 1 : 0.7}
               >
                 <Text style={styles.ingEmoji}>{item.emoji}</Text>
                 <Text style={styles.ingName}>{item.name}</Text>
+                {deleteMode && (
+                  <TouchableOpacity style={styles.deleteBadge} onPress={() => handleToggle(item)}>
+                    <Text style={styles.deleteX}>✕</Text>
+                  </TouchableOpacity>
+                )}
               </TouchableOpacity>
             )}
           />
@@ -240,6 +261,20 @@ const styles = StyleSheet.create({
   },
   ingEmoji: { fontSize: 30, marginBottom: 4 },
   ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center' },
+  // 删除模式
+  deleteBadge: {
+    position: 'absolute', top: -6, right: -6,
+    width: 22, height: 22, borderRadius: 11,
+    backgroundColor: Colors.accentDeep,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  deleteX: { fontSize: 12, fontWeight: FontWeight.bold, color: Colors.bgWhite },
+  editBtn: { fontSize: FontSize.caption, color: Colors.accentPrimary, fontWeight: FontWeight.medium },
+  doneBtnSm: {
+    backgroundColor: Colors.accentPrimary, paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.xs, borderRadius: BorderRadius.small,
+  },
+  doneTextSm: { fontSize: FontSize.body, fontWeight: FontWeight.semiBold, color: Colors.bgWhite },
 
   // 完成添加按钮
   doneBar: {
