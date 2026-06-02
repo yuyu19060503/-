@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   scroll: { padding: Spacing.lg, paddingBottom: Spacing.xxxl },
   hint: { fontSize: FontSize.body, color: Colors.textMuted, textAlign: 'center', marginBottom: Spacing.lg },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: Spacing.md },
-  card: { width: '47%', aspectRatio: 2.2, borderRadius: BorderRadius.recipeCard, borderWidth: 2.5, justifyContent: 'center', alignItems: 'center', ...Shadow.card },
-  icon: { fontSize: 30, marginBottom: 2 },
+  card: { width: '47%', aspectRatio: 1.8, borderRadius: BorderRadius.recipeCard, borderWidth: 2.5, justifyContent: 'center', alignItems: 'center', ...Shadow.card },
+  icon: { fontSize: 34, marginBottom: 2 },
   label: { fontSize: FontSize.body, fontWeight: FontWeight.bold },
 });

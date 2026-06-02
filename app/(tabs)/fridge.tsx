@@ -49,10 +49,10 @@ export default function FridgeScreen() {
       {
         text: '确定',
         style: 'destructive',
-        onPress: () => {
+        onPress: async () => {
           setDeleteMode(false);
+          await saveFridge([]);
           dispatch({ type: 'SET_FRIDGE', ingredients: [] });
-          saveFridge([]);
         },
       },
     ]);
@@ -263,12 +263,13 @@ const styles = StyleSheet.create({
   ingName: { fontSize: FontSize.caption, color: Colors.textPrimary, textAlign: 'center' },
   // 删除模式
   deleteBadge: {
-    position: 'absolute', top: -6, right: -6,
-    width: 22, height: 22, borderRadius: 11,
+    position: 'absolute', top: -8, right: -8,
+    width: 28, height: 28, borderRadius: 14,
     backgroundColor: Colors.accentDeep,
     justifyContent: 'center', alignItems: 'center',
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.18, shadowRadius: 4, elevation: 4,
   },
-  deleteX: { fontSize: 12, fontWeight: FontWeight.bold, color: Colors.bgWhite },
+  deleteX: { fontSize: 15, fontWeight: FontWeight.bold, color: Colors.bgWhite },
   editBtn: { fontSize: FontSize.caption, color: Colors.accentPrimary, fontWeight: FontWeight.medium },
   doneBtnSm: {
     backgroundColor: Colors.accentPrimary, paddingHorizontal: Spacing.lg,
